@@ -242,3 +242,8 @@ def deleteC(id):
 @login_require
 def interfaces(pagina):
     return render_template('aplicacion/{}.html'.format(pagina))
+
+
+@bp.route('/Chat')
+def Chat():
+    return render_template('aplicacion/Chat.html')
