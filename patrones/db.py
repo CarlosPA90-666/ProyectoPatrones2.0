@@ -28,6 +28,22 @@ def init_db():
         c.execute(i)
     db.commit()
 
+def recibir_tablas() :
+    db,c = get_db()
+    query = 'select * from usuario where family = "p"'
+    c.execute(query)
+    user = c.fetchall()
+    for usuario in user :
+        print(usuario['family'])
+        print()
+    c.close()
+
+@click.command('prove-db')
+@with_appcontext
+def prove_db_command():
+    recibir_tablas()
+    click.echo('Base de datos probada')
+
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
@@ -37,3 +53,4 @@ def init_db_command():
 def init__app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+    app.cli.add_command(prove_db_command)

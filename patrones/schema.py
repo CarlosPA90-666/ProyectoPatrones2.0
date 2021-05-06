@@ -4,7 +4,6 @@ instructions = [
     'DROP TABLE IF EXISTS Recordatorio;',
     'DROP TABLE IF EXISTS Medicamento;',
     'DROP TABLE IF EXISTS Cita;',
-    'DROP TABLE IF EXISTS Familia;',
     'DROP TABLE IF EXISTS Mensaje;',
     'SET FOREIGN_KEY_CHECKS=1;',
     """
@@ -44,21 +43,11 @@ instructions = [
         );
     """,
     """
-        CREATE TABLE Familia(
-            familiar INT NOT NULL,
-            family VARCHAR(100) primary key NOT NULL,
-            FOREIGN KEY (familiar) REFERENCES Usuario (id),
-            FOREIGN KEY (family) REFERENCES Usuario(username)
-        );
-    """,
-    """
         CREATE TABLE Mensaje(
             id INT PRIMARY KEY AUTO_INCREMENT,
             created_by INT NOT NULL,
-            family_Initials VARCHAR(100) NOT NULL,
             Contentmsg VARCHAR(100) NOT NULL,
-            FOREIGN KEY (created_by) REFERENCES Usuario (id),
-            FOREIGN KEY (family_Initials) REFERENCES Familia(family)
+            FOREIGN KEY (created_by) REFERENCES Usuario (id)    
         );
     """,
     """

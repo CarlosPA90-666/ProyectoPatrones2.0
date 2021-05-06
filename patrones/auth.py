@@ -106,10 +106,10 @@ def send(usuario, correo) :
         cómoda, feliz y tranquila para su familiar. Asi mismo, encontrara ejercicios de estimulación fisica y mental asegunrando\
         una buena calidad de vida.".format(usuario)
     
-    password = "Ni426293."
-    msg['From'] = "nicolas.cifuentes01@correo.usa.edu.co"
+    password = "patrones12345"
+    msg['From'] = "patronesdiseno1@gmail.com"
     msg['To'] = correo
-    msg['Subject'] = "Bienvenido!"
+    msg['Subject'] = "¡Bienvenido!"
 
     msg.attach(MIMEText(message, 'plain'))
     server = smtplib.SMTP('smtp.gmail.com: 587')
@@ -117,5 +117,3 @@ def send(usuario, correo) :
     server.login(msg['From'], password)
     server.sendmail(msg['From'], msg['To'], msg.as_string())
     server.quit()
-
-

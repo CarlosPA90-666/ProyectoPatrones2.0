@@ -3,6 +3,10 @@ from werkzeug.exceptions import abort
 from patrones.auth import login_require
 from patrones.db import get_db
 
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+
 bp = Blueprint('patrones',__name__)
 
 @bp.route('/')
@@ -128,7 +132,6 @@ def createM():
     return render_template('aplicacion/createM.html')
 
 ##########################################################################################################################################
-# Modificacion de medicamentos (requiere frontend)
 @bp.route('/<int:id>/updateM',methods=['GET','POST'])
 @login_require
 def updateM(id):
@@ -161,7 +164,7 @@ def get_medicamento(id):
     return medicamento
 
 ##########################################################################################################################################
-# Eliminar de medicamentos (requiere frontend)
+
 @bp.route('/<int:id>/deleteM',methods=['POST'])
 @login_require
 def deleteM(id):
@@ -172,7 +175,6 @@ def deleteM(id):
 
 ########################################################### CITAS MEDICAS ###########################################################
 
-# Creacion de citas medicas (requiere frontend)
 @bp.route('/createC',methods=['GET','POST'])
 @login_require
 def createC():
@@ -197,7 +199,7 @@ def createC():
 
     return render_template('aplicacion/createC.html') 
 ##########################################################################################################################################
-# Modificacion de citas medicas (requiere frontend)
+
 @bp.route('/<int:id>/updateC',methods=['GET','POST'])
 @login_require
 def updateC(id):
@@ -229,7 +231,7 @@ def get_cita(id):
     return cita
 
 ##########################################################################################################################################
-# Eliminar de medicamentos (requiere frontend)
+
 @bp.route('/<int:id>/deleteC',methods=['POST'])
 @login_require
 def deleteC(id):
@@ -243,7 +245,43 @@ def deleteC(id):
 def interfaces(pagina):
     return render_template('aplicacion/{}.html'.format(pagina))
 
-
+##########################################################################################################################################
 @bp.route('/Chat')
+@login_require
 def Chat():
     return render_template('aplicacion/Chat.html')
+
+##########################################################################################################################################
+@bp.route('/mensaje')
+@login_require
+def mensaje() :
+    db,c = get_db()
+    c.execute('select * from usuario where family = "{}"'.format(g.user['family']))
+    lista = c.fetchall()
+    
+    if len(lista) == 1 :
+        send(lista[0]['username'],lista[0]['email'])
+    else :
+        for usuario in lista :
+            send(usuario['username'],usuario['email'])
+    
+    return redirect(url_for('patrones.index'))
+
+def send(usuario, correo) :
+    msg = MIMEMultipart()
+    message = "ALERTA {}! \nAlguien ha utilizado el boton de alerta para notificar a toda la familia de una emergencia.\
+        \nPor favor contactate con tus familiares y asegurate que cada uno de ellos se encuentre en buen estado\
+        , sobre todo tu(s) adulto(s) mayor(es). No olvides que esta notificación le llega ha todos los usuarios registrados\
+        un su familia.".format(usuario)
+    
+    password = "patrones12345"
+    msg['From'] = "patronesdiseno1@gmail.com"
+    msg['To'] = correo
+    msg['Subject'] = "¡ALERTA!"
+
+    msg.attach(MIMEText(message, 'plain'))
+    server = smtplib.SMTP('smtp.gmail.com: 587')
+    server.starttls()
+    server.login(msg['From'], password)
+    server.sendmail(msg['From'], msg['To'], msg.as_string())
+    server.quit()
