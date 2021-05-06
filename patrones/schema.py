@@ -45,9 +45,9 @@ instructions = [
     """,
     """
         CREATE TABLE Familia(
-            created_by INT NOT NULL,
+            familiar INT NOT NULL,
             family VARCHAR(100) primary key NOT NULL,
-            FOREIGN KEY (created_by) REFERENCES Usuario (id),
+            FOREIGN KEY (familiar) REFERENCES Usuario (id),
             FOREIGN KEY (family) REFERENCES Usuario(username)
         );
     """,

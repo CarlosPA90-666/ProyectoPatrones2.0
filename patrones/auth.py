@@ -19,7 +19,7 @@ def register():
         phone = request.form['phone']
         birthdate = request.form['birthdate']
         role = request.form['role']
-        familiy = request.form['familiy']
+        family = request.form['family']
 
         db,c = get_db()
         error = None
@@ -33,10 +33,17 @@ def register():
             error = 'Usuario {} se encuentra registrado.'.format(username)
 
         if error is None:
-            c.execute('insert into Usuario (username, password, email, address, phone, birthdate, role, familiy) values' 
-                    '(%s,%s,%s,%s,%s,%s,%s,%s)',(username, generate_password_hash(password),email,address,phone,birthdate,role,familiy))
+            c.execute('insert into Usuario (username, password, email, address, phone, birthdate, role, family) values' 
+                    '(%s,%s,%s,%s,%s,%s,%s,%s)',(username, generate_password_hash(password),email,address,phone,birthdate,role,family))
             db.commit()
+            '''
+            c.execute("select id from usuario where username='{}'".format(username)) 
+            identification = db.commit()
 
+            c.execute('insert into familia (familiar, family) values' 
+                    '(%s,%s)',(identification,family))
+            db.commit()
+            '''
             send(username,email)
 
             return redirect(url_for('auth.login'))
