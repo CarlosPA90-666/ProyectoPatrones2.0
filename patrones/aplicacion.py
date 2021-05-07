@@ -215,7 +215,7 @@ def updateC(id):
             flash(error)
         else:
             db, c = get_db()
-            c.execute('update Cita set date = %s, doctor = %s, specialization = %s, companion = %'
+            c.execute('update Cita set date = %s, doctor = %s, specialization = %s, companion = %s'
                 ' where id = %s and created_by = %s', (date, doctor, specialization, companion, id, g.user['id']))
             db.commit()
             return redirect(url_for('patrones.index')) 
@@ -249,6 +249,7 @@ def interfaces(pagina):
 @bp.route('/Chat', methods=['GET','POST'])
 @login_require
 def Chat():
+    mensajes = get_mensaje(g.user['family'])
     if request.method == 'POST':
         message = request.form['message']
         error = None
@@ -262,7 +263,16 @@ def Chat():
             c.execute('insert into Mensaje (created_by,Contentmsg) values (%s,%s)',(g.user['id'],message))
         db.commit()
 
-    return render_template('aplicacion/Chat.html')
+    return render_template('aplicacion/Chat.html',mensajes=mensajes)
+
+def get_mensaje(familia):
+    db,c = get_db()
+    c.execute('select m.id, m.created_by, m.Contentmsg, u.family, m.created_at,' 
+            ' u.username from Mensaje m join Usuario u on m.created_by = u.id where u.family = "%s"',(familia))
+    mensaje = c.fetchall()
+    if mensaje is None:
+        abort(404,'El mensaje de id {0} no existe'.format(id))
+    return mensaje
 
 ##########################################################################################################################################
 @bp.route('/mensaje')

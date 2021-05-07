@@ -12,7 +12,7 @@ def get_db():
             password=current_app.config['DATABASE_PASSWORD'],
             database=current_app.config['DATABASE']
         )
-        g.c = g.db.cursor(dictionary=True)
+        g.c = g.db.cursor(dictionary=True,buffered=True)
     return g.db, g.c
 
 def close_db(e=None):
@@ -30,12 +30,11 @@ def init_db():
 
 def recibir_tablas() :
     db,c = get_db()
-    query = 'select * from usuario where family = "p"'
+    query = 'select m.id, m.created_by, m.Contentmsg, u.family, m.created_at,'\
+            'u.username from Mensaje m join Usuario u on m.created_by = u.id where u.family = "p"'
     c.execute(query)
-    user = c.fetchall()
-    for usuario in user :
-        print(usuario['family'])
-        print()
+    user = c.fetchone()
+    print(user)
     c.close()
 
 @click.command('prove-db')

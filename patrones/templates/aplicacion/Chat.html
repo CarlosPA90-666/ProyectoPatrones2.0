@@ -29,27 +29,31 @@
     <div class="chat-page">
       <div class="msg-inbox">
         <li>
-          <div class="msg-page">
-            <div class="received-chats">
-              <div class="received-msg">
-                <div class="received-msg-inbox">
-                  <p>Hola nene</p>
-                  <!--TODO id del mensaje != logeado -->
-                  <span class="time">10:00 PM</span>
-                  <!--TODO-->
-                </div>
-              </div>
-            </div>
-
-            <div class="outgoing-chats">
-              <div class="outgoing-chats-msg">
-                <p>Hola putita ;D</p>
-                <!--TODO-->
-                <span class="time">10:02 PM</span>
+          {% for mensaje in mensajes %} {% if mensaje['id'] == g.user['id'] %}
+          <div class="received-chats">
+            <div class="received-msg">
+              <div class="received-msg-inbox">
+                <p>{{ mensaje['Contentmsg'] }}</p>
+                <!--TODO id del mensaje != logeado -->
+                <span class="time"></span>
+                  10:00 PM</span
+                >
                 <!--TODO-->
               </div>
             </div>
           </div>
+          {% else %}
+          <div class="outgoing-chats">
+            <div class="outgoing-chats-msg">
+              <p>{{ mensaje['Contentmsg'] }}</p>
+              <!--TODO-->
+              <span class="time"
+                >10:00 PM</span
+              >
+              <!--TODO-->
+            </div>
+          </div>
+          {% endif %} {% endfor %}
         </li>
       </div>
       <div class="msg-bottom">

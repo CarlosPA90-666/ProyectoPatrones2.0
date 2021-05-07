@@ -46,6 +46,7 @@ instructions = [
         CREATE TABLE Mensaje(
             id INT PRIMARY KEY AUTO_INCREMENT,
             created_by INT NOT NULL,
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             Contentmsg VARCHAR(100) NOT NULL,
             FOREIGN KEY (created_by) REFERENCES Usuario (id)    
         );
