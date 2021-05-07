@@ -197,7 +197,7 @@ def createC():
         db.commit()
         return redirect(url_for('patrones.index')) 
 
-    return render_template('aplicacion/createC.html') 
+    return render_template('aplicacion/createC.html')
 ##########################################################################################################################################
 
 @bp.route('/<int:id>/updateC',methods=['GET','POST'])
@@ -246,9 +246,22 @@ def interfaces(pagina):
     return render_template('aplicacion/{}.html'.format(pagina))
 
 ##########################################################################################################################################
-@bp.route('/Chat')
+@bp.route('/Chat', methods=['GET','POST'])
 @login_require
 def Chat():
+    if request.method == 'POST':
+        message = request.form['message']
+        error = None
+
+        if not message:
+            error = 'Mensaje vacio no puede ser enviado'
+        if error is not None:
+            flash(error)
+        else:
+            db,c = get_db()
+            c.execute('insert into Mensaje (created_by,Contentmsg) values (%s,%s)',(g.user['id'],message))
+        db.commit()
+
     return render_template('aplicacion/Chat.html')
 
 ##########################################################################################################################################
