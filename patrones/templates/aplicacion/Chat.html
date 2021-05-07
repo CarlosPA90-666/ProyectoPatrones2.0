@@ -29,15 +29,14 @@
     <div class="chat-page">
       <div class="msg-inbox">
         <li>
-          {% for mensaje in mensajes %} {% if mensaje['id'] == g.user['id'] %}
+          {% for mensaje in mensajes %} {% if mensaje['created_by'] !=
+          g.user['id'] %}
           <div class="received-chats">
             <div class="received-msg">
               <div class="received-msg-inbox">
                 <p>{{ mensaje['Contentmsg'] }}</p>
                 <!--TODO id del mensaje != logeado -->
-                <span class="time"></span>
-                  10:00 PM</span
-                >
+                <span class="time">{{ mensaje['created_at'] }}</span>
                 <!--TODO-->
               </div>
             </div>
@@ -47,9 +46,7 @@
             <div class="outgoing-chats-msg">
               <p>{{ mensaje['Contentmsg'] }}</p>
               <!--TODO-->
-              <span class="time"
-                >10:00 PM</span
-              >
+              <span class="time">{{ mensaje['created_at'] }}</span>
               <!--TODO-->
             </div>
           </div>
