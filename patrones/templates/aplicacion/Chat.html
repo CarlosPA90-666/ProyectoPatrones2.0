@@ -36,7 +36,9 @@
               <div class="received-msg-inbox">
                 <p>{{ mensaje['Contentmsg'] }}</p>
                 <!--TODO id del mensaje != logeado -->
-                <span class="time">{{ mensaje['created_at'] }}</span>
+                <span class="time"
+                  >{{ mensaje['created_at'] }} {{ mensaje['username'] }}</span
+                >
                 <!--TODO-->
               </div>
             </div>
@@ -46,7 +48,9 @@
             <div class="outgoing-chats-msg">
               <p>{{ mensaje['Contentmsg'] }}</p>
               <!--TODO-->
-              <span class="time">{{ mensaje['created_at'] }}</span>
+              <span class="time"
+                >{{ mensaje['created_at'] }} {{ mensaje['username'] }}</span
+              >
               <!--TODO-->
             </div>
           </div>

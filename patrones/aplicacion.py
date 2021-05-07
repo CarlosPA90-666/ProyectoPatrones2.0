@@ -265,6 +265,7 @@ def Chat():
                     ' values (%s,%s)',(g.user['id'],message))
         db.commit()
     mensajes = get_mensaje(g.user['family'])
+    notificacion()
     return render_template('aplicacion/Chat.html',mensajes=mensajes)
 
 def get_mensaje(familia):
@@ -285,16 +286,16 @@ def mensaje() :
     lista = c.fetchall()
     
     if len(lista) == 1 :
-        send(lista[0]['username'],lista[0]['email'])
+        sendAlert(lista[0]['username'],lista[0]['email'])
     else :
         for usuario in lista :
-            send(usuario['username'],usuario['email'])
+            sendAlert(usuario['username'],usuario['email'])
     
     return redirect(url_for('patrones.index'))
 
-def send(usuario, correo) :
+def sendAlert(usuario, correo) :
     msg = MIMEMultipart()
-    message = "ALERTA {}! \nAlguien ha utilizado el boton de alerta para notificar a toda la familia de una emergencia.\
+    message = "¡ALERTA {}! \nAlguien ha utilizado el boton de alerta para notificar a toda la familia de una emergencia.\
         \nPor favor contactate con tus familiares y asegurate que cada uno de ellos se encuentre en buen estado\
         , sobre todo tu(s) adulto(s) mayor(es). No olvides que esta notificación le llega ha todos los usuarios registrados\
         un su familia.".format(usuario)
@@ -303,6 +304,34 @@ def send(usuario, correo) :
     msg['From'] = "patronesdiseno1@gmail.com"
     msg['To'] = correo
     msg['Subject'] = "¡ALERTA!"
+
+    msg.attach(MIMEText(message, 'plain'))
+    server = smtplib.SMTP('smtp.gmail.com: 587')
+    server.starttls()
+    server.login(msg['From'], password)
+    server.sendmail(msg['From'], msg['To'], msg.as_string())
+    server.quit()
+
+##########################################################################################################################################
+def notificacion() :
+    db,c = get_db()
+    c.execute('select * from usuario where family = "{}"'.format(g.user['family']))
+    lista = c.fetchall()
+    
+    if len(lista) != 1 :
+        for usuario in lista :
+            if usuario['id'] != g.user['id'] :
+                sendNotification(usuario['username'],usuario['email'])
+
+def sendNotification(usuario, correo) :
+    msg = MIMEMultipart()
+    message = "¡{} Nuevo mensaje de {}! \nHay un nuevo mensaje de entrada para la familia.\
+        \nPor favor revisa la aplicación para enterarte de las ultimas noticias 🧐.".format(usuario,g.user['username'])
+    
+    password = "patrones12345"
+    msg['From'] = "patronesdiseno1@gmail.com"
+    msg['To'] = correo
+    msg['Subject'] = "¡Nuevo mensaje!"
 
     msg.attach(MIMEText(message, 'plain'))
     server = smtplib.SMTP('smtp.gmail.com: 587')
