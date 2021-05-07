@@ -10,8 +10,6 @@
     <label for="phone">Fecha de cita</label>
     <input type="date" name="fecha_cita" id="fecha_cita" required />
 
-
-
     <input
       type="text"
       name="precio_medicamento"
@@ -49,7 +47,7 @@
     <!--"id=recordatorio" tiene que cambiar por la variable de cita-->
     <form
       class="actualizacion"
-      action="{{ url_for('patrones.delete',id=cita['id']) }}"
+      action="{{ url_for('patrones.deleteC',id=cita['id']) }}"
       method="POST"
     >
       <!--Elimnar cita-->
