@@ -73,5 +73,15 @@ instructions = [
             Nextpaydate Date NOT NULL,
             FOREIGN KEY (created_by) REFERENCES Usuario (id)    
         );
+    """,
+     """
+        CREATE TABLE Pension(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            created_by INT NOT NULL,
+            initialvalue double,
+            startdate date,
+            pensionvalue double,
+            FOREIGN KEY (created_by) REFERENCES Usuario (id)    
+        );
     """
 ]

@@ -414,3 +414,15 @@ def deleteO(id):
     db.commit()
     return redirect(url_for('patrones.index')) 
 
+
+
+##########################################################################################################################################
+
+@bp.route('/Pension')
+def Pension():
+    return render_template('aplicacion/Pension.html') 
+
+
+@bp.route('/IniciarPension')
+def IniciarPension():
+    return render_template('aplicacion/IniciarPension.html') 
