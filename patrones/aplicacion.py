@@ -371,9 +371,46 @@ def createObF():
 
 def get_obligacion(id):
     db,c = get_db()
-    c.execute('select o.id, o.name, o.dose, o.bank, o.value, o.Nextpaydate,' 
-            '  from ObligacionesFinancieras o join Usuario u on o.created_by = u.id where m.id = %s',(id,))
+    c.execute('select o.id, o.name, o.bank, o.value, o.Nextpaydate' 
+            '  from ObligacionesFinancieras o join Usuario u on o.created_by = u.id where o.id = %s',(id,))
     obligacion = c.fetchone()
     if obligacion is None:
         abort(404,'ELa obligacion de id {0} no existe'.format(id))
     return obligacion    
+
+
+
+
+##########################################################################################################################################
+
+@bp.route('/<int:id>/DeudasM',methods=['GET','POST'])
+@login_require
+def updateD(id):
+    obligacion = get_obligacion(id)
+    if request.method == 'POST':
+        bank = request.form['Banco_Prestamista']
+        value = request.form['ValorObligacion']
+        nextpaydate = request.form['SiguienteFechaDePago']
+        error = None
+
+        if error is not None:
+            flash(error)
+        else:
+            db, c = get_db()
+            c.execute('update ObligacionesFinancieras set bank = %s, value = %s, Nextpaydate = %s'
+                ' where id = %s and created_by = %s', (bank, value, nextpaydate, id, g.user['id']))
+            db.commit()
+            return redirect(url_for('patrones.index')) 
+    return render_template('aplicacion/DeudasM.html',obligacion=obligacion) 
+
+
+##########################################################################################################################################
+
+@bp.route('/<int:id>/deleteO',methods=['POST'])
+@login_require
+def deleteO(id):
+    db,c = get_db()
+    c.execute('delete from ObligacionesFinancieras where id = %s and created_by = %s',(id,g.user['id']))
+    db.commit()
+    return redirect(url_for('patrones.index')) 
+
