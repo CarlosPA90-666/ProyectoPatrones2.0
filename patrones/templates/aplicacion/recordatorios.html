@@ -11,8 +11,8 @@
   <a class="action boton" href="{{ url_for('patrones.createC') }}"
     >Nueva cita medica</a
   >
-  <a class="action boton" href="{{ url_for('patrones.createC') }}"
-    >Nuevo Registro de Deuda</a
+  <a class="action boton" href="{{ url_for('patrones.createObF') }}"
+    >Nueva Obligación Financiera</a
   >
   {% endif %}
 </div>
@@ -117,6 +117,41 @@
       </div>
     </ul>
   </div>
+
+  
+  <div class="boxline">
+    <ul>
+      <div>
+        {% for obligacion in obligaciones %}
+        <li class="pedido">
+          <div class="Columna inicio centrarcontenido">
+            <!-- Caja de Citas Medicas -->
+            <h2>{{ obligacion['name'] }}</h2>
+
+            <div class="about centrar">
+              Banco: {{ obligacion['bank'] }} <br />
+              Valor: {{ obligacion['value'] }} <br />
+              Fecha De Pago: {{obligacion['Nextpaydate'].strftime('%Y-%m-%d') }}
+            </div>
+            <div class="centrar varios">
+              {% if g.user['role'] == 2 %}
+              <a
+                class="action boton"
+                href="{{ url_for('patrones.updateC', id=obligacion['id']) }}"
+                >Editar</a
+              >
+              {% endif %}
+            </div>
+          </div>
+        </li>
+        {% if not loop.last %}
+        <hr />
+        {% endif %} {% endfor %}
+      </div>
+    </ul>
+  </div>
+
+
 </div>
 <!-- Boton -->
 <div class="centrarboton">

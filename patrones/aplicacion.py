@@ -25,10 +25,13 @@ def index():
             'c.created_by = u.id where c.created_by=%s',(g.user['id'],))
     citas = c.fetchall()
 
+    c.execute('select o.id, o.name, o.bank, o.value, o.Nextpaydate from ObligacionesFinancieras o join Usuario u on o.created_by = u.id where u.id = %s',(g.user['id'],))
+    obligaciones = c.fetchall()
+
     #c.execute('select r.id, r.description, u.username, r.completed, r.created_at from Recordatorio r JOIN Usuario u on '
     #        'r.created_by = u.id where r.created_by=%s order by created_at desc',(g.user['id'],))
     #recordatorios = c.fetchall()
-    return render_template('aplicacion/recordatorios.html', recordatorios=recordatorios, medicamentos=medicamentos, citas=citas) 
+    return render_template('aplicacion/recordatorios.html', recordatorios=recordatorios, medicamentos=medicamentos, citas=citas, obligaciones=obligaciones) 
 
 ########################################################### RECORDATORIO ###########################################################
 
@@ -339,3 +342,38 @@ def sendNotification(usuario, correo) :
     server.login(msg['From'], password)
     server.sendmail(msg['From'], msg['To'], msg.as_string())
     server.quit()
+
+########################################################### OBLIGACIONES FINANCIERAS ###########################################################
+
+@bp.route('/Deudas',methods=['GET','POST'])
+@login_require
+def createObF():
+    if request.method=="POST":
+        name = request.form['nombre_obligacion']
+        bank = request.form['Banco_Prestamista ']
+        value = request.form['ValorObligacion']
+        nextpaydate = request.form['SiguienteFechaDePago']
+
+        error = None
+
+        if not nextpaydate:
+            error = 'Fecha de siguiente pago requerido'
+        if error is not None:
+            flash(error)
+        else:
+            db,c = get_db()
+            c.execute('insert into ObligacionesFinancieras (created_by,name,bank,value,Nextpaydate)'
+                    ' values (%s,%s,%s,%s,%s)',(g.user['id'],name,bank,value,nextpaydate))
+        db.commit()
+        return redirect(url_for('patrones.index')) 
+
+    return render_template('aplicacion/Deudas.html')
+
+def get_obligacion(id):
+    db,c = get_db()
+    c.execute('select o.id, o.name, o.dose, o.bank, o.value, o.Nextpaydate,' 
+            '  from ObligacionesFinancieras o join Usuario u on o.created_by = u.id where m.id = %s',(id,))
+    obligacion = c.fetchone()
+    if obligacion is None:
+        abort(404,'ELa obligacion de id {0} no existe'.format(id))
+    return obligacion    

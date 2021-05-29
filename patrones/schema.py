@@ -5,6 +5,7 @@ instructions = [
     'DROP TABLE IF EXISTS Medicamento;',
     'DROP TABLE IF EXISTS Cita;',
     'DROP TABLE IF EXISTS Mensaje;',
+    'DROP TABLE IF EXISTS ObligacionesFinancieras;',
     'SET FOREIGN_KEY_CHECKS=1;',
     """
         CREATE TABLE Usuario(
@@ -60,6 +61,17 @@ instructions = [
             specialization VARCHAR(100) NOT NULL,
             companion VARCHAR(100) NOT NULL,
             FOREIGN KEY (created_by) REFERENCES Usuario (id)
+        );
+    """,
+     """
+        CREATE TABLE ObligacionesFinancieras(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            created_by INT NOT NULL,
+            name VARCHAR(100) NOT NULL,
+            bank VARCHAR(100) NOT NULL,
+            value DOUBLE NOT NULL,
+            Nextpaydate Date NOT NULL,
+            FOREIGN KEY (created_by) REFERENCES Usuario (id)    
         );
     """
 ]
