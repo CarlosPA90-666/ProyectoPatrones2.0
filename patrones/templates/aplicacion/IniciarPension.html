@@ -3,15 +3,23 @@
 {% endblock %} {% block content %}
 
 <section class="form-register">
-    <h2 class="centrar">RECORDATORIOS</h2>
+    <h2 class="centrar">Pensión Inicial</h2>
   
     <form method="POST">
+      <h3>Valor de Pensión</h3>
       <input
         class="controls"
         type="text"
-        name="description"
-        id="description"
-        placeholder="Recordatorio..."
+        name="PensionInicial"
+        id="PensionInicial"
+        placeholder="Valor Pensión Inicio de Mes...(COP)"
+      />
+      <h3>Fecha de Inicio de Pensión</h3>
+      <input
+        class="controls"
+        type="date"
+        name="FechaPensionInicial"
+        id="FechaPensionInicial"
       />
       <input class="boton" type="submit" value="Guardar" />
     </form>

@@ -423,6 +423,37 @@ def Pension():
     return render_template('aplicacion/Pension.html') 
 
 
-@bp.route('/IniciarPension')
-def IniciarPension():
+@bp.route('/<int:id>/IniciarPension', methods=['POST'])
+@login_require
+
+def BorrarPensionAnterior(id):
+    
+
+
+def IniciarPension(id):
+    db,c = get_db()
+    c.execute('delete from Pension where id = %s and created_by = %s',(id,g.user['id']))
+           
+    db.commit()
+
+
+    if request.method=="POST":
+        PensionInicial = request.form['PensionInicial']
+        FechaPensionInicial = request.form['FechaPensionInicial']
+
+        error = None
+
+        if not PensionInicial:
+            error = 'Valor de pensión inicial requerido'
+        if error is not None:
+            flash(error)
+        
+        else:
+            db,c = get_db()
+            c.execute('insert into Pension (created_by,initialvalue,startdate,pensionvalue)'
+                    ' values (%s,%s,%s,%s)',(g.user['id'], PensionInicial, FechaPensionInicial, PensionInicial))
+           
+        db.commit()
+        return redirect(url_for('patrones.Pension'))
+
     return render_template('aplicacion/IniciarPension.html') 
