@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block header %}
-<h1 class="centrar">{% block title %} Control de Pensión {% endblock %}</h1>
+<h1 class="centrar">{% block title %} Control de Pensión Pensión{% endblock %}</h1>
 {% endblock %} {% block content %}
 
 
@@ -18,11 +18,22 @@
         <table class="table table-hover table-dark">
             <thead>
                 <tr>
-                    <th scope="col'8">Saldo Pensión</th>
-
+                    
+                    <th scope="col-8">Saldo Pensión Inicial - {{pension['startdate']}}</th>
+                    
+                    
 
                 </tr>
             </thead>
+            <tbody>
+                <tr>
+                    <td>{{pension['initialvalue']}}</td>
+                    <th scope="col-8">Gastos</th>
+                    <th> <a class="action boton" href="{{ url_for('patrones.Gasto') }}">Añadir Gasto</a></th>
+
+                </tr>
+
+            </tbody>
         </table>
 
     </div>

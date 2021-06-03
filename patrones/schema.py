@@ -6,6 +6,7 @@ instructions = [
     'DROP TABLE IF EXISTS Cita;',
     'DROP TABLE IF EXISTS Mensaje;',
     'DROP TABLE IF EXISTS ObligacionesFinancieras;',
+    'DROP TABLE IF EXISTS Pension;',
     'SET FOREIGN_KEY_CHECKS=1;',
     """
         CREATE TABLE Usuario(
@@ -81,6 +82,16 @@ instructions = [
             initialvalue double,
             startdate date,
             pensionvalue double,
+            FOREIGN KEY (created_by) REFERENCES Usuario (id)    
+        );
+    """,
+     """
+        CREATE TABLE historialGastos(
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            created_by INT NOT NULL,
+            pensionactual double,
+            expend double,
+            expenddate date,
             FOREIGN KEY (created_by) REFERENCES Usuario (id)    
         );
     """

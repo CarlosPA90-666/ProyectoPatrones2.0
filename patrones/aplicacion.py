@@ -420,40 +420,38 @@ def deleteO(id):
 
 @bp.route('/Pension')
 def Pension():
-    return render_template('aplicacion/Pension.html') 
-
-
-@bp.route('/<int:id>/IniciarPension', methods=['POST'])
-@login_require
-
-def BorrarPensionAnterior(id):
-    
-
-
-def IniciarPension(id):
     db,c = get_db()
-    c.execute('delete from Pension where id = %s and created_by = %s',(id,g.user['id']))
-           
-    db.commit()
+    c.execute('select p.id, p.initialvalue, p.startdate, p.pensionvalue from Pension p JOIN Usuario u on '
+            'p.created_by = u.id where p.created_by=%s',(g.user['id'],))
+    pension = c.fetchone()
+
+    return render_template('aplicacion/Pension.html',pension=pension) 
 
 
+@bp.route('/IniciarPension',methods=['POST'])
+def IniciarPension():
     if request.method=="POST":
-        PensionInicial = request.form['PensionInicial']
-        FechaPensionInicial = request.form['FechaPensionInicial']
+        initialvalue = request.form['PensionInicial']
+        startdate = request.form['FechaPensionInicial']
+        pensionvalue = request.form['PensionInicial']
 
         error = None
 
-        if not PensionInicial:
-            error = 'Valor de pensión inicial requerido'
+        if not initialvalue:
+            error = 'Valor inicial de pension requerido'
         if error is not None:
             flash(error)
-        
         else:
             db,c = get_db()
             c.execute('insert into Pension (created_by,initialvalue,startdate,pensionvalue)'
-                    ' values (%s,%s,%s,%s)',(g.user['id'], PensionInicial, FechaPensionInicial, PensionInicial))
-           
+                    ' values (%s,%s,%s,%s)',(g.user['id'],initialvalue,startdate,pensionvalue))
         db.commit()
-        return redirect(url_for('patrones.Pension'))
+        return redirect(url_for('patrones.Pension')) 
 
-    return render_template('aplicacion/IniciarPension.html') 
+    return render_template('aplicacion/IniciarPension.html')
+
+@bp.route('/Gasto',methods=['POST'])
+def Gasto():
+    if request.method == "POST":
+        
+    return render_template('aplicacion/Gasto.html')
