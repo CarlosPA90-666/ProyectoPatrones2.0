@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block header %}
+<h1 class="centrar">{% block title %} Control de Pensión - Sumar Saldo{% endblock %}</h1>
+{% endblock %} {% block content %}
+
+<section class="form-register">
+    <h2 class="centrar">Sumar Saldo</h2>
+  
+    <form method="POST">
+      <input class="boton" type="submit" value="Añadir Saldo" />
+    </form>
+  
+    <ul id="elementoUl"></ul>
+  </section>
+
+  <div class="centrar">
+    <a class="action boton" href="{{ url_for('patrones.Pension')}}">Volver</a>
+  </div>
+  {% endblock %}

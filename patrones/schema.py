@@ -7,6 +7,7 @@ instructions = [
     'DROP TABLE IF EXISTS Mensaje;',
     'DROP TABLE IF EXISTS ObligacionesFinancieras;',
     'DROP TABLE IF EXISTS Pension;',
+    'DROP TABLE IF EXISTS historialGastos;',
     'SET FOREIGN_KEY_CHECKS=1;',
     """
         CREATE TABLE Usuario(
@@ -91,6 +92,7 @@ instructions = [
             created_by INT NOT NULL,
             pensionactual double,
             expend double,
+            expendconcept varchar(100),
             expenddate date,
             FOREIGN KEY (created_by) REFERENCES Usuario (id)    
         );

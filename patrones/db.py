@@ -30,10 +30,12 @@ def init_db():
 
 def recibir_tablas() :
     db,c = get_db()
-    query = 'select m.id, m.created_by, m.Contentmsg, u.family, m.created_at,'\
-            'u.username from Mensaje m join Usuario u on m.created_by = u.id where u.family = "p"'
+    query = 'select p.id, p.pensionvalue from Pension p join Usuario u on p.created_by = u.id where p.id = 1'
+    
     c.execute(query)
+
     user = c.fetchone()
+    print(type(user['pensionvalue']))
     print(user)
     c.close()
 

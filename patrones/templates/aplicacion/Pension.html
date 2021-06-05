@@ -9,9 +9,10 @@
 
         <div class="boxline">
             {% if g.user %}
-  <a class="action boton" href="{{ url_for('patrones.IniciarPension') }}"
-    >Inicializar Pensión</a
-  >
+  
+  <a class="action boton" href="{{ url_for('patrones.Gasto',id=pension['id']) }}">Añadir Gasto</a>
+  <a class="action boton" href="{{ url_for('patrones.SumarSaldo',id=pension['id'])}}">Añadir Saldo Pensión</a>
+  
   {% endif %}
         </div>
 
@@ -20,18 +21,31 @@
                 <tr>
                     
                     <th scope="col-8">Saldo Pensión Inicial - {{pension['startdate']}}</th>
+                    <td>{{pension['initialvalue']}}</td>
+
+                    <th scope="col-8">Saldo Pensión Actual : {{pension['pensionvalue']}}</th>
+
                     
                     
 
                 </tr>
             </thead>
             <tbody>
+                
+                <th scope="col-8">Valor Gasto</th>
+                <th scope="col-8">Concepto Gasto</th>
+                <th scope="col-8">Fecha de Gasto</th>
+                <br>
+                {%for hpension in hpensiones%}
                 <tr>
-                    <td>{{pension['initialvalue']}}</td>
-                    <th scope="col-8">Gastos</th>
-                    <th> <a class="action boton" href="{{ url_for('patrones.Gasto') }}">Añadir Gasto</a></th>
+                    
+                    <td>{{hpension['expend']}}</td>
+                    <td>{{hpension['expendconcept']}}</td>
+                    <td>{{hpension['expenddate']}}</td>
+
 
                 </tr>
+                {%endfor%}
 
             </tbody>
         </table>

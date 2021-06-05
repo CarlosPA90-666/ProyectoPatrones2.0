@@ -14,6 +14,14 @@
         id="valorgasto"
         placeholder="Valor Gasto...(COP)"
       />
+      <h3>Concepto del gasto</h3>
+      <input
+        class="controls"
+        type="text"
+        name="conceptorgasto"
+        id="conceptorgasto"
+        placeholder="Concepto del Gasto"
+      />
       <h3>Fecha del gasto</h3>
       <input
         class="controls"
@@ -28,6 +36,6 @@
   </section>
 
   <div class="centrar">
-    <a class="action boton" href="{{ url_for('patrones.Gasto') }}">Volver</a>
+    <a class="action boton" href="{{ url_for('patrones.Pension')}}">Volver</a>
   </div>
   {% endblock %}
