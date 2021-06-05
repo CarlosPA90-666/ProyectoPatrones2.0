@@ -1,5 +1,6 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
+from flask_socketio import SocketIO, send
 
 def create_app():
     app = Flask(__name__)
@@ -11,6 +12,8 @@ def create_app():
         DATABASE_USER=os.environ.get('FLASK_DATABASE_USER'),
         DATABASE=os.environ.get('FLASK_DATABASE'),
     )
+
+    socketio = SocketIO(app)
 
     from . import db
     db.init__app(app)
@@ -24,5 +27,14 @@ def create_app():
     @app.route('/hola')
     def hola():
         return 'Hola mundo'
+
+    @app.route('/pruebas')
+    def pruebas() :
+        return render_template('pruebas.html')
     
+    @socketio.on('message')
+    def handleMessage(msg) :
+        print('Message: '+msg)
+        send(msg,broadcast=True)
+
     return app

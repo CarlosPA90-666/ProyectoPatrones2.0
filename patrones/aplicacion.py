@@ -2,10 +2,13 @@ from flask import (Blueprint, flash, g, render_template, request, url_for, redir
 from werkzeug.exceptions import abort
 from patrones.auth import login_require
 from patrones.db import get_db
+from flask_socketio import send
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
+
+from flask_socketio import send
 
 bp = Blueprint('patrones',__name__)
 
@@ -249,9 +252,9 @@ def interfaces(pagina):
 @bp.route('/Chat', methods=['GET','POST'])
 @login_require
 def Chat():
-    
+    '''
     if request.method=="POST":
-        message = request.form['message']
+        message = request.form['myMessage']
 
         error = None
 
@@ -263,10 +266,12 @@ def Chat():
             db,c = get_db()
             c.execute('insert into Mensaje (created_by,Contentmsg)'
                     ' values (%s,%s)',(g.user['id'],message))
-        db.commit()
+        #db.commit()
     mensajes = get_mensaje(g.user['family'])
     notificacion()
-    return render_template('aplicacion/Chat.html',mensajes=mensajes)
+    '''
+
+    return render_template('aplicacion/Chat.html')
 
 def get_mensaje(familia):
     db,c = get_db()
