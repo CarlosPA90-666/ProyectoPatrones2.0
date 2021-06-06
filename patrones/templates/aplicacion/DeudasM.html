@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block header %}
+<h1 class="centrar">
+  {% block title %} Editar Oblicación Financiera: {{ obligacion['name'] }}{% endblock %}
+</h1>
+{% endblock %} {% block content %}
+
+<!--Campo donde se ingresan las medicinas nuevas-->
+<div class="formulario Columna inicio centrarcontenido">
+  <form class="Columna inicio centrarcontenido" method="POST">
+    <input type="text" name="Banco_Prestamista" id="Banco_Prestamista" placeholder="Banco O Prestamista..."/>
+
+    <input type="text" name="ValorObligacion" id="ValorObligacion" placeholder="Valor de la Oblicación..."/>
+
+    <input type="date" name="SiguienteFechaDePago" id="SiguienteFechaDePago"/>
+
+    
+    <!--Campo donde se ingresan las medicinas-->
+    <input class="boton centrar" type="submit" value="Guardar" />
+  </form>
+
+  <!--Edicion de las medicinas consumidas-->
+  <div class="box">
+    <!--"id=recordatorio" tiene que cambiar por la variable de medicinas-->
+    <form
+      class="actualizacion"
+      action="{{ url_for('patrones.deleteO',id=obligacion['id']) }}"
+      method="POST"
+    >
+      <!--Elimnar medicinas-->
+      <input class="boton"
+        type="submit"
+        value="Eliminar"
+        onclick="return confirm('¿estas seguro de querer eliminarlo?')"
+      />
+      <a class="action boton" href="{{ url_for('patrones.index') }}">Volver</a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

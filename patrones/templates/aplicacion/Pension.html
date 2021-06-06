@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block header %}
+<h1 class="centrar">{% block title %} Control de Pensión Pensión{% endblock %}</h1>
+{% endblock %} {% block content %}
+
+
+<div class="row">
+    <div class="col-8">
+        <h1>Pensión</h1>
+
+        <div class="boxline">
+            {% if g.user %}
+  
+  <a class="action boton" href="{{ url_for('patrones.Gasto',id=pension['id']) }}">Añadir Gasto</a>
+  <a class="action boton" href="{{ url_for('patrones.SumarSaldo',id=pension['id'])}}">Añadir Saldo Pensión</a>
+  
+  {% endif %}
+        </div>
+
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    
+                    <th scope="col-8">Saldo Pensión Inicial - {{pension['startdate']}}</th>
+                    <td>{{pension['initialvalue']}}</td>
+
+                    <th scope="col-8">Saldo Pensión Actual : {{pension['pensionvalue']}}</th>
+
+                    
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+                
+                <th scope="col-8">Valor Gasto</th>
+                <th scope="col-8">Concepto Gasto</th>
+                <th scope="col-8">Fecha de Gasto</th>
+                <br>
+                {%for hpension in hpensiones%}
+                <tr>
+                    
+                    <td>{{hpension['expend']}}</td>
+                    <td>{{hpension['expendconcept']}}</td>
+                    <td>{{hpension['expenddate']}}</td>
+
+
+                </tr>
+                {%endfor%}
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block header %}
+<h1 class="centrar">
+  {% block title %} Control de Pensión - Iniciar Pensión {% endblock %}
+</h1>
+{% endblock %} {% block content %}
+
+<section class="form-register">
+  <h2 class="centrar">Pensión Inicial</h2>
+
+  <form method="POST">
+    <h3>Valor de Pensión</h3>
+    <input
+      class="controls"
+      type="text"
+      name="PensionInicial"
+      id="PensionInicial"
+      placeholder="Valor Pensión Inicio de Mes...(COP)"
+    />
+    <h3>Fecha de Inicio de Pensión</h3>
+    <input
+      class="controls"
+      type="date"
+      name="FechaPensionInicial"
+      id="FechaPensionInicial"
+    />
+    <input class="boton" type="submit" value="Guardar" />
+  </form>
+
+  <ul id="elementoUl"></ul>
+</section>
+
+<div class="centrar">
+  <a class="action boton" href="{{ url_for('patrones.Pension') }}">Volver</a>
+</div>
+{% endblock %}

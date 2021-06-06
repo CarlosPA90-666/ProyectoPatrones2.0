@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% block header %}
+<h1 class="centrar">{% block title %} Crear Oblicación Financiera {% endblock %}</h1>
+{% endblock %} {% block content %}
+
+<section class="form-register">
+  <h2 class="centrar">Obligación Financiera</h2>
+
+  <form method="POST">
+    <input
+      class="controls"
+      type="text"
+      name="nombre_obligacion"
+      id="nombre_obligacion"
+      placeholder="Nombre Obligación Financiera"
+    />
+
+    <input
+      class="controls"
+      type="text"
+      name="Banco_Prestamista "
+      id="Banco_Prestamista"
+      placeholder="Banco O Prestamista..."
+    />
+
+    <input
+      class="controls"
+      type="text"
+      name="ValorObligacion"
+      id="ValorObligacion"
+      placeholder="Valor De La Obligación Financiera..."
+    />
+
+    <input
+      class="controls"
+      type="date"
+      name="SiguienteFechaDePago"
+      id="SiguienteFechaDePago"
+      placeholder="Fecha De Proximo Pago..."
+    />
+
+    
+
+    <input class="boton" type="submit" value="Guardar" />
+  </form>
+
+  <ul id="elementoUl"></ul>
+</section>
+
+<div class="centrar">
+  <a class="action boton" href="{{ url_for('patrones.index') }}">Volver</a>
+</div>
+
+{% endblock %}
