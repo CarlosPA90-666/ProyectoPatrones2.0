@@ -4,83 +4,29 @@
 {% endblock %} {% block content %}
 
 <body>
-  <!--
-  <div class="containerch">
-    <div class="msg-header">
-      
-      <div class="active">
-        <h4>{{ g.user['username'] }}</h4>
-      </div>
-      <div class="header-icons">
-        <i class="fas fa-phone"></i>
-        <i class="fas fa-video"></i>
-      </div>
+
+  <div class= "containerch">
+    <div class = "msg-header">
+        <div class = "active">
+            <h4> {{g.user['username']}}</h4>
+        </div>
     </div>
-  -->
+
+
   <div class="chat-page">
-    <div class="msg-inbox">
-      <div>{{g.user['username']}}</div>
-      <!--      
-          <li>
-            {% for mensaje in mensajes %} {% if mensaje['created_by'] !=
-            g.user['id'] %}
-          
-        <div class="received-chats">
-          <div class="received-msg">
-            <div class="received-msg-inbox">
-              
-                  <p>{{ mensaje['Contentmsg'] }}</p>
-                  <span class="time"
-                    >{{ mensaje['created_at'] }} {{ mensaje['username'] }}</span
-                  >
-                  
-        <ul id="messages"></ul>
+    <div class = "msg-inbox">
       
-            </div>
-          </div>
-        </div>
-        
-            {% else %}
-            <div class="outgoing-chats">
-              <div class="outgoing-chats-msg">
-                <p>{{ mensaje['Contentmsg'] }}</p>
-                
-                <span class="time"
-                  >{{ mensaje['created_at'] }} {{ mensaje['username'] }}</span
-                >
-                
-              </div>
-            </div>
-            {% endif %} {% endfor %}
-          </li>
-          
-      </div>
-      <div class="msg-bottom">
-        <a class="action boton" href="{{ url_for('patrones.index') }}"
-          >Regresar</a
-        >
-        <form method="POST">
-        <div class="input-group">
-          <input
-            type="text"
-            name="myMessage"
-            id="myMessage"
-            class="form-control"
-            placeholder="Escribe un mensaje"
-          />
-          <div class="input-group-append">
-            <button class="boton" type="button" id="send">Enviar</button>
-          </div>
-        </div>
-        </form>
-      </div>
-    -->
       <div>
         <ul id="messages"></ul>
       </div>
-      <input type="text" id="myMessage" />
-
-      <button type="button" id="send">Send</button>
+      <div class ="msg-bottom">
+        <div class = "input-group">
+          <input type="text" class = "form-control" id="myMessage" placeholder="Escribe un mensaje" />
+          <div class = "input-group-append">
+            <button class="boton" type="button" id="send">Enviar</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -96,6 +42,7 @@
     crossorigin="anonymous"
   ></script>
 
-  <script type="text/javascript" src="../../static/js/mensaje.js"></script>
+  <script  type="text/javascript" src="../../static/js/mensaje.js"></script>
+
 </body>
 {% endblock %}

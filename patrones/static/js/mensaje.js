@@ -3,7 +3,7 @@ const socket = io();
 
 socket.on("message", function (msg, user) {
   console.log($("#messages").val());
-  $("#messages").append("<li>" + msg + "</li>");
+  $("#messages").append("<li>" + msg + "</li><br>");
 });
 
 $("#send").on("click", function () {
