@@ -1,0 +1,9 @@
+myenv\Scripts\activate.bat
+set FLASK_APP=patrones
+set FLASK_DATABASE_HOST=localhost
+set FLASK_DATABASE=prueba
+set FLASK_DATABASE_USER=root
+set FLASK_DATABASE_PASSWORD=943965
+set FLASK_ENV=development
+FLASK init-db
+FLASK run
